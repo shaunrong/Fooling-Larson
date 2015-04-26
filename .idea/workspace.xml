@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8ed54e6e-8d40-40f6-9072-ea7ae64df232" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/InputWorld.py" afterPath="$PROJECT_DIR$/src/InputWorld.py" />
-    </list>
+    <list default="true" id="8ed54e6e-8d40-40f6-9072-ea7ae64df232" name="Default" comment="" />
     <ignored path="Fooling-Larson.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -35,10 +33,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InputWorld.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="InputWorld.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/InputWorld.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.0744382" vertical-offset="0" max-vertical-offset="1020">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
               <caret line="51" column="17" selection-start-line="51" selection-start-column="17" selection-end-line="51" selection-end-column="17" />
               <folding />
             </state>
@@ -50,17 +48,30 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
               <caret line="1" column="26" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="26" />
-              <folding />
+              <folding>
+                <marker date="1430074602000" expanded="true" signature="0:26" placeholder="zero:" />
+                <marker date="1430074602000" expanded="true" signature="28:53" placeholder="one:" />
+                <marker date="1430074602000" expanded="true" signature="55:80" placeholder="two:" />
+                <marker date="1430074602000" expanded="true" signature="82:109" placeholder="three:" />
+                <marker date="1430074602000" expanded="true" signature="111:137" placeholder="four:" />
+                <marker date="1430074602000" expanded="true" signature="139:165" placeholder="five:" />
+                <marker date="1430074602000" expanded="true" signature="167:192" placeholder="six:" />
+                <marker date="1430074602000" expanded="true" signature="194:221" placeholder="seven:" />
+                <marker date="1430074602000" expanded="true" signature="223:250" placeholder="eight:" />
+                <marker date="1430074602000" expanded="true" signature="252:278" placeholder="nine:" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Clustering.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Clustering.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Clustering.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="165">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.53651685" vertical-offset="53" max-vertical-offset="765">
+              <caret line="29" column="57" selection-start-line="29" selection-start-column="57" selection-end-line="29" selection-end-column="57" />
+              <folding>
+                <element signature="e#133#151#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -94,6 +105,7 @@
         <option value="$PROJECT_DIR$/src/ClusterAssociation.py" />
         <option value="$PROJECT_DIR$/src/digits.yaml" />
         <option value="$PROJECT_DIR$/src/InputWorld.py" />
+        <option value="$PROJECT_DIR$/src/Clustering.py" />
       </list>
     </option>
   </component>
@@ -425,14 +437,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Clustering.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="714">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/GSOM.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="930">
@@ -445,15 +449,36 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
           <caret line="1" column="26" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="26" />
-          <folding />
+          <folding>
+            <marker date="1430074602000" expanded="true" signature="0:26" placeholder="zero:" />
+            <marker date="1430074602000" expanded="true" signature="28:53" placeholder="one:" />
+            <marker date="1430074602000" expanded="true" signature="55:80" placeholder="two:" />
+            <marker date="1430074602000" expanded="true" signature="82:109" placeholder="three:" />
+            <marker date="1430074602000" expanded="true" signature="111:137" placeholder="four:" />
+            <marker date="1430074602000" expanded="true" signature="139:165" placeholder="five:" />
+            <marker date="1430074602000" expanded="true" signature="167:192" placeholder="six:" />
+            <marker date="1430074602000" expanded="true" signature="194:221" placeholder="seven:" />
+            <marker date="1430074602000" expanded="true" signature="223:250" placeholder="eight:" />
+            <marker date="1430074602000" expanded="true" signature="252:278" placeholder="nine:" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/InputWorld.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0744382" vertical-offset="0" max-vertical-offset="1020">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
           <caret line="51" column="17" selection-start-line="51" selection-start-column="17" selection-end-line="51" selection-end-column="17" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Clustering.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.53651685" vertical-offset="53" max-vertical-offset="765">
+          <caret line="29" column="57" selection-start-line="29" selection-start-column="57" selection-end-line="29" selection-end-column="57" />
+          <folding>
+            <element signature="e#133#151#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
