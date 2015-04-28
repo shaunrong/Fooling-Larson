@@ -24,7 +24,27 @@ class GSOM(object):
         self.tou = tou
         self.n = n
         self.iter = 0
-        #TODO: initiate the map
+
+        #Making sure parameters have valid values
+        #TODO: fix the types
+        if type(self.alpha) != float:
+            raise TypeError('alpha must be a float')
+        if self.alpha < 0 or 1 < self.alpha:
+            raise ValueError('alpha must be between 0 and 1. Received: ' + self.alpha)
+
+        if type(self.lam) != int:
+            raise TypeError('lam must be an int')
+        if self.lam < 1:
+            raise ValueError('lam must be an integer greater than or equal to 1. Received: ' + self.lam)
+
+        if type(self.n) != int:
+            raise TypeError('n must be an int')
+        if self.n < 1:
+            raise ValueError('n must be an integer greater than or equal to 1. Received: . Received: ' + self.n)
+        
+        #initiating the map
+        #TODO: normalize each vector
+        self.map = np.random.rand(2,2,n)
 
     def update(self, feature):
         """
