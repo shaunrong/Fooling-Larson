@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import yaml
+import numpy as np
 
 __author__ = 'Shaun Rong'
 __version__ = '0.1'
@@ -49,6 +51,7 @@ class Digits(object):
         1 in input will be randomized to 0.9~1
         :return: an input vector
         """
+        #TODO
         return []
 
     def _get_sym_map(self):
@@ -58,5 +61,15 @@ class Digits(object):
         :return: a dictionary similar to norm .yaml file, but with number of segments
         """
         #TODO: Calculate the sym_map
-        return {}
+        with open(self._norm, 'r') as digits:
+            sym_map = yaml.load(digits)
+        for key, value in sym_map.iteritems():
+            new_map = np.array([], dtype=int)
+            for element in value:
+                if element == 0:
+                    new_map = np.append(new_map, np.zeros(self._seg, dtype=int))
+                if element == 1:
+                    new_map = np.append(new_map, np.ones(self._seg, dtype=int))
+            sym_map[key] = new_map
+        return sym_map
 
