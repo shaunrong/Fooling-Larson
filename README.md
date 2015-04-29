@@ -1,1 +1,33 @@
 # Fooling-Larson
+
+<project>  
+<student>Ziqin (Shaun) Rong and Manuel Cabral</student>  
+<title>Fooling Larson</title>  
+<vision>  
+Evolutionary algorithms have proven effective in fooling deep neural network systems, rendering the latter imperfect to be the full solution of computer vision. Then what is the ultimate visual recognition system for computers? This project tests if Larson's Intrisic Representation System is more robust and can handle genetic algorithms deliberately designed to fool them.
+</vision>  
+<type>  
+Research project with implementation 
+</type>  
+<steps>  
+<ul>  
+<li>  
+Read through Larson's graduate thesis and related literatures about evolution algorithms.
+</li> <li> 
+Build up Larson's Intrisic Representation System
+</li>  
+<li> 
+Train the Intrisic Representation System with digital number images (0~9, represented by a 7-dimensional vector</li>  
+<li>Build up evolutionary input feeding system upon the trained Intrisic Representation System, trying to see if it can be fooled with meanless input vector.</li>
+</ul>  
+</steps>  
+<contributions>  
+<ul> 
+<li> 
+Trained a Intrinsic Representation System to recognize digital numbers.
+</li><li> 
+Tested Intrinsic Representation System's performance against algorithms designed to deliberately fool it.
+</li> 
+</ul> 
+</contributions>   
+</project>
