@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ed54e6e-8d40-40f6-9072-ea7ae64df232" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/larson/Clustering.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/setup.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/clustering.py" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/ClusterAssociation.py" afterPath="$PROJECT_DIR$/larson/ClusterAssociation.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/GSOM.py" afterPath="$PROJECT_DIR$/larson/GSOM.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/InputWorld.py" afterPath="$PROJECT_DIR$/larson/InputWorld.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/__init__.py" afterPath="$PROJECT_DIR$/larson/__init__.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/digits.yaml" afterPath="$PROJECT_DIR$/larson/digits.yaml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Fooling-Larson.iml" afterPath="$PROJECT_DIR$/.idea/Fooling-Larson.iml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/larson/digits.yaml" afterPath="$PROJECT_DIR$/norms/digits.yaml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/larson/InputWorld.py" afterPath="$PROJECT_DIR$/larson/InputWorld.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Fooling_Larson.egg-info/PKG-INFO" afterPath="$PROJECT_DIR$/Fooling_Larson.egg-info/PKG-INFO" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scratch.ipynb" afterPath="$PROJECT_DIR$/scratch.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Fooling-Larson.iws" />
@@ -44,23 +39,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InputWorld.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="InputWorld.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/larson/InputWorld.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1215">
-              <caret line="24" column="17" selection-start-line="24" selection-start-column="17" selection-end-line="24" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.42307693" vertical-offset="702" max-vertical-offset="1275">
+              <caret line="60" column="59" selection-start-line="57" selection-start-column="12" selection-end-line="60" selection-end-column="59" />
               <folding>
-                <element signature="e#22#33#0" expanded="true" />
+                <element signature="e#22#35#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="setup.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="setup.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.73717946" vertical-offset="0" max-vertical-offset="495">
-              <caret line="23" column="40" selection-start-line="23" selection-start-column="40" selection-end-line="23" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
+              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
               <folding>
                 <element signature="e#133#176#0" expanded="true" />
               </folding>
@@ -69,7 +64,7 @@
         </entry>
       </file>
       <file leaf-file-name="digits.yaml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/larson/digits.yaml">
+        <entry file="file://$PROJECT_DIR$/norms/digits.yaml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="225">
               <caret line="1" column="26" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="26" />
@@ -132,12 +127,13 @@
         <option value="$PROJECT_DIR$/src/Clustering.py" />
         <option value="$PROJECT_DIR$/src/InputWorld.py" />
         <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/larson/InputWorld.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1054" />
-    <option name="y" value="168" />
+    <option name="x" value="1131" />
+    <option name="y" value="126" />
     <option name="width" value="1440" />
     <option name="height" value="832" />
   </component>
@@ -209,6 +205,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="norms" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Fooling-Larson" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Fooling-Larson" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="larson" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -236,6 +246,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/norms" />
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
@@ -408,7 +419,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1054" y="168" width="1440" height="832" extended-state="0" />
+    <frame x="1131" y="126" width="1440" height="832" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -464,12 +475,12 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="1020">
           <caret line="51" column="17" selection-start-line="51" selection-start-column="17" selection-end-line="51" selection-end-column="17" />
           <folding>
-            <element signature="e#22#33#0" expanded="true" />
+            <element signature="e#22#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/larson/digits.yaml">
+    <entry file="file://$PROJECT_DIR$/norms/digits.yaml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="225">
           <caret line="1" column="26" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="26" />
@@ -514,7 +525,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/larson/digits.yaml">
+    <entry file="file://$PROJECT_DIR$/norms/digits.yaml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
           <caret line="1" column="26" selection-start-line="1" selection-start-column="5" selection-end-line="1" selection-end-column="26" />
@@ -559,22 +570,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/larson/InputWorld.py">
+    <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1215">
-          <caret line="24" column="17" selection-start-line="24" selection-start-column="17" selection-end-line="24" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
           <folding>
-            <element signature="e#22#33#0" expanded="true" />
+            <element signature="e#133#176#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
+    <entry file="file://$PROJECT_DIR$/larson/InputWorld.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.73717946" vertical-offset="0" max-vertical-offset="495">
-          <caret line="23" column="40" selection-start-line="23" selection-start-column="40" selection-end-line="23" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.42307693" vertical-offset="702" max-vertical-offset="1275">
+          <caret line="60" column="59" selection-start-line="57" selection-start-column="12" selection-end-line="60" selection-end-column="59" />
           <folding>
-            <element signature="e#133#176#0" expanded="true" />
+            <element signature="e#22#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
