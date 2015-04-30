@@ -56,12 +56,12 @@ class GSOM(object):
     def __neighborhood_of(self,x,y):
         """
         Retrieves the cells closest to the specified cell.
-        Includes horizontal, vertical and diagonal cells.
+        Only includes vertical and horizontal cells.
         """
         return [(x + i, y + j)
                 for i in xrange(-1, 2)
                 for j in xrange(-1, 2)
-                if (i != 0 or j != 0)
+                if ((i + j) % 2 != 0)
                 and (0 <= x + i < self._map.shape[0])
                 and (0 <= y + j < self._map.shape[1])]
 
