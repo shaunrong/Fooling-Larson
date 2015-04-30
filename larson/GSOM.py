@@ -45,6 +45,7 @@ class GSOM(object):
         
         #initiating the map
         self._map = np.random.rand(2, 2, n)
+        self._mapping = {}
 
     @property
     def map(self):
@@ -104,6 +105,12 @@ class GSOM(object):
         match = __get_closest_match()
         for cell in __neighborhood_of(match):
             __update_cell(*cell)
+
+        #Map feature to this cell
+        if self._mapping.has_key(match):
+            self._mapping[match].append(feature)
+        else:
+            self._mapping[match] = [feature]
 
         #Grow map if lam iterations have passed
         self._iter += 1
