@@ -65,7 +65,6 @@ class GSOM(object):
                 and (0 <= x + i < self._map.shape[0])
                 and (0 <= y + j < self._map.shape[1])]
 
-
     def __get_closest_match(self,feature):
         """
         Retrieves the indices of the cell with the smallest Euclidean distance to feature
