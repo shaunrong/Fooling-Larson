@@ -97,22 +97,25 @@ class GSOM(object):
             raise ValueError('Input feature has the wrong dimensionality. Got ' +str(len(feature)) + ', Expected '
                              + str(self._n))
 
+        if self._converged = True:
+            return
+
         #Update cells
         match = __get_closest_match()
         for cell in __neighborhood_of(match):
             __update_cell(*cell)
 
         #Grow map if lam iterations have passed
-        self.iter += 1
-        if self.iter >= self._lam:
+        self._iter += 1
+        if self._iter >= self._lam:
             self.grow()
-            self.iter = self.iter % self._lam
+            self._iter = self._iter % self._lam
 
     def grow(self):
         """
         grow the map every lam iteration
         """
-        if self.iter % self._lam == 0:
+        if self._iter % self._lam == 0:
             pass
             #TODO: update the map
 
