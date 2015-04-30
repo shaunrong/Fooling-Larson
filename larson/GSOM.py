@@ -53,43 +53,45 @@ class GSOM(object):
             print "Please be noted, the GSOM training hasn't converged."
         return self._map
 
+    def __neighborhood_of(self,x,y):
+        """
+        Retrieves the cells closest to the specified cell.
+        Includes horizontal, vertical and diagonal cells.
+        """
+        return [(x + i, y + j)
+                for i in xrange(-1, 2)
+                for j in xrange(-1, 2)
+                if (i != 0 or j != 0)
+                and (0 <= x + i < self._map.shape[0])
+                and (0 <= y + j < self._map.shape[1])]
+
+
+    def __get_closest_match(self,feature):
+        """
+        Retrieves the indices of the cell with the smallest Euclidean distance to feature
+        """
+        errors = np.zeros(self._map.shape[:2])
+        #TODO: Refactor so its not two nested for-loops
+        for x in xrange(self._map.shape[0]):
+            for y in xrange(self._map.shape[1]):
+                errors[x][y] = np.linalg.norm(self._map[x][y] - feature)
+
+        return np.unravel_index( np.argmin(errors), errors.shape)
+
+    def __update_cell(self,feature, x, y):
+        """
+        Updates the cell according to the following formula:
+        m_i(t+1) = m_i(t) + alpha(t) * ( x(t) - m_i(t) )
+        """
+        if not (0 <= x <= self._map.shape[0]) or not(0 <= y <= self._map.shape[1]):
+            raise ValueError('Invalid cell ('+ str(x) +',' + str(y) + ') in map of shape' + str(self._map.shape[:2]))
+
+        self._map[x][y] = (1-self._alpha)*self._map[x][y] + self._alpha*feature
+
     def update(self, feature):
         """
         update the map with a input vector (either array or numpy array)
         """
-        def __get_closest_match():
-            """
-            Retrieves the indices of the cell with the smallest Euclidean distance to feature
-            """
-            errors = np.zeros(self._map.shape[:2])
-            #TODO: Refactor so its not two nested for-loops
-            for x in xrange(self._map.shape[0]):
-                for y in xrange(self._map.shape[1]):
-                    errors[x][y] = np.linalg.norm(self._map[x][y] - feature)
-
-            return np.unravel_index( np.argmin(errors), errors.shape)
-
-        def __neighborhood_of(x,y):
-            """
-            Retrieves the cells closest to the specified cell.
-            Includes horizontal, vertical and diagonal cells.
-            """
-            return [(x + i, y + j)
-                    for i in xrange(-1, 2)
-                    for j in xrange(-1, 2)
-                    if (i != 0 or j != 0)
-                    and (0 <= x + i < self._map.shape[0])
-                    and (0 <= y + j < self._map.shape[1])]
-
-        def __update_cell(x, y):
-            """
-            Updates the cell according to the following formula:
-            m_i(t+1) = m_i(t) + alpha(t) * ( x(t) - m_i(t) )
-            """
-            if not (0 <= x <= self._map.shape[0]) or not(0 <= y <= self._map.shape[1]):
-                raise ValueError('Invalid cell ('+ str(x) +',' + str(y) + ') in map of shape' + str(self._map.shape[:2]))
-
-            self._map[x][y] = (1-self._alpha)*self._map[x][y] + self._alpha*feature
 
         #Check that input is valid
         if type(feature) != list and type(feature) != np.ndarray:
@@ -102,9 +104,9 @@ class GSOM(object):
             return
 
         #Update cells
-        match = __get_closest_match()
-        for cell in __neighborhood_of(*match):
-            __update_cell(*cell)
+        match = self.__get_closest_match(feature)
+        for cell in self.__neighborhood_of(*match):
+            self.__update_cell(feature, *cell)
 
         #Map feature to this cell
         if self._mapping.has_key(match):
