@@ -50,14 +50,42 @@ class GSOM(object):
         """
         update the map with a input vector (either array or numpy array)
         """
+        def __get_closest_match():
+            """
+            Retrieves the indices of the cell with the smallest Euclidean distance to feature
+            """
+            pass
+
+        def __neighborhood_of(cell):
+            """
+            Retrieves the cells closest to the specified cell.
+            Includes horizontal, vertical and diagonal cells.
+            """
+            pass
+
+        def __update_cell(x, y):
+            """
+            Updates the cell according to the following formula:
+            m_i(t+1) = m_i(t) + alpha(t) * ( x(t) - m_i(t) )
+            """
+            pass
+
+        #Check that input is valid
         if type(feature) != list and type(feature) != np.ndarray:
             raise TypeError('Input feature vector has to be a list or numpy array.')
         if len(feature) != self.n:
-            raise ValueError('Input feature has the wrong dimensionality.')
+            raise ValueError('Input feature has the wrong dimensionality. Got ' +str(len(feature)) + ', Expected ' + str(self.n))
 
+        #Update cells
+        match = __get_closest_match()
+        for cell in __neighborhood_of(match):
+            __update_cell(*cell)
+
+        #Grow map if lam iterations have passed
         self.iter += 1
-        pass
-        #TODO: update the map
+        if self.iter >= self.lam:
+            self.grow()
+            self.iter = self.iter % self.lam
 
     def grow(self):
         """
