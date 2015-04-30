@@ -69,17 +69,17 @@ class GSOM(object):
 
             return np.unravel_index( np.argmin(errors), errors.shape)
 
-        def __neighborhood_of(cell):
+        def __neighborhood_of(x,y):
             """
             Retrieves the cells closest to the specified cell.
             Includes horizontal, vertical and diagonal cells.
             """
-            return [(cell[0] + x, cell[1] + y)
-                    for x in xrange(-1, 2)
-                    for y in xrange(-1, 2)
-                    if (x != 0 or y != 0)
-                    and (0 <= cell[0] + x < self._map.shape[0])
-                    and (0 <= cell[1] + y < self._map.shape[1])]
+            return [(x + i, y + j)
+                    for i in xrange(-1, 2)
+                    for j in xrange(-1, 2)
+                    if (i != 0 or j != 0)
+                    and (0 <= x + i < self._map.shape[0])
+                    and (0 <= y + j < self._map.shape[1])]
 
         def __update_cell(x, y):
             """
@@ -103,7 +103,7 @@ class GSOM(object):
 
         #Update cells
         match = __get_closest_match()
-        for cell in __neighborhood_of(match):
+        for cell in __neighborhood_of(*match):
             __update_cell(*cell)
 
         #Map feature to this cell
