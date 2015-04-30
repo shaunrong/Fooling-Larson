@@ -10,18 +10,18 @@ from GSOM import GSOM
 
 
 class UPGMA(object):
-    def __init__(self, GSOM, clusters=10):
+    def __init__(self, SOM, clusters=10):
         """
         This class uses the Pair Group Method with Arithmetic Mean (UPGMA) algorithm to cluster SOM Map.
         :param GSOM: input SOM world (a numpy array)
         :param clusters: number of clusters the UPGMA clusters into
         """
-        if type(GSOM) != GSOM:
+        if type(SOM) != GSOM:
             raise TypeError("SOM input has to be a GSOM object.")
         self._world = GSOM
         self._clusters = clusters
 
-        self._association = {}  # {'cluster1' : [indexes of cells below to that cluster]}
+        self._association = {}  # {'cluster1' : [indexes of cells belong to that cluster]}
         for i in range(clusters):
             self._association['cluster' + str(i)] = []
 
