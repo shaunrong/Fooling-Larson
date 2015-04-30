@@ -98,7 +98,7 @@ class GSOM(object):
             raise ValueError('Input feature has the wrong dimensionality. Got ' +str(len(feature)) + ', Expected '
                              + str(self._n))
 
-        if self._converged = True:
+        if self._converged == True:
             return
 
         #Update cells
