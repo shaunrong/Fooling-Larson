@@ -45,7 +45,8 @@ class GSOM(object):
         
         #initiating the map
         self._map = np.random.rand(2, 2, n)
-        self._mapping = {}
+        self._mapping = np.array([[0,1],[2,3]])
+        self._context = {}
 
     @property
     #TODO: pick better name, this currently overrides the map function
@@ -113,10 +114,12 @@ class GSOM(object):
             self.__update_cell(feature, *cell)
 
         #Map feature to this cell
-        if self._mapping.has_key(match):
-            self._mapping[match].append(feature)
+        if self._mapping.shape > match:
+            raise ValueError("match is out of range, looking for cell " + str(match) + " in mapping of shape " + str(self._mapping.shape))
+        if self._context.has_key(self._mapping[match]):
+            self._context[self._mapping[match]].append(feature)
         else:
-            self._mapping[match] = [feature]
+            self._context[self._mapping[match]] = [feature]
 
         #Grow map if lam iterations have passed
         self._iter += 1
