@@ -119,13 +119,33 @@ class GSOM(object):
             self.grow()
             self._iter = self._iter % self._lam
 
+    def __get_highest_error_cell(self):
+        """
+        It gets the cell e with the highest quantization error defined as:
+        qe_i = sum_(x_j) || m_i - x_j ||
+        where the x_j's are the features mapped to that cell.
+        """
+        raise NotImplementedError()
+
+    def __get_worst_neighbor(self, cell):
+        """
+        Find the most dissimilar neighbor of a cell.
+        """
+        raise NotImplementedError()
+
+    def __grow_map(self,c1,c2):
+        """
+        Grows the map between the two specified cells
+        """
+        raise NotImplementedError()
+
     def grow(self):
         """
-        grow the map every lam iteration
+        Grow the map. It's expected that this is called by GSOM.update
         """
-        if self._iter % self._lam == 0:
-            pass
-            #TODO: update the map
+        most_error_cell = self.__get_highest_error_cell()
+        worst_neighbor = self.__get_worst_neighbor(most_error_cell)
+        self.__grow_map(most_error_cell, worst_neighbor)
 
     def check(self):
         """
