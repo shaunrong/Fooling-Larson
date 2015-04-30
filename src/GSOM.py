@@ -54,21 +54,35 @@ class GSOM(object):
             """
             Retrieves the indices of the cell with the smallest Euclidean distance to feature
             """
-            pass
+            errors = np.zeros(self.map.shape[:2])
+            #TODO: Refactor so its not two nested for-loops
+            for x in xrange(self.map.shape[0]):
+                for y in xrange(self.map.shape[1]):
+                    errors[x][y] = np.linalg.norm(self.map[x][y] - feature)
+
+            return np.unravel_index( np.argmin(errors), errors.shape)
 
         def __neighborhood_of(cell):
             """
             Retrieves the cells closest to the specified cell.
             Includes horizontal, vertical and diagonal cells.
             """
-            pass
+            return [(cell[0] + x, cell[1] + y)
+                    for x in xrange(-1,2)
+                    for y in xrange(-1,2)
+                    if (x != 0 or y != 0)
+                    and (0 <= cell[0] + x < self.map.shape[0])
+                    and (0 <= cell[1] + y < self.map.shape[1])]
 
         def __update_cell(x, y):
             """
             Updates the cell according to the following formula:
             m_i(t+1) = m_i(t) + alpha(t) * ( x(t) - m_i(t) )
             """
-            pass
+            if not (0 <= x <= self.map.shape[0]) or not(0 <= y <= self.map.shape[1]):
+                raise ValueError('Invalid cell ('+ str(x) +',' + str(y) + ') in map of shape' + str(self.map.shape[:2]) )
+
+            self.map[x][y] = (1-self.alpha)*self.map[x][y] + self.alpha*feature
 
         #Check that input is valid
         if type(feature) != list and type(feature) != np.ndarray:
