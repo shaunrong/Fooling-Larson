@@ -45,50 +45,57 @@ class GSOM(object):
         
         #initiating the map
         self._map = np.random.rand(2, 2, n)
+        self._mapping = {}
 
     @property
+    #TODO: pick better name, this currently overrides the map function
     def map(self):
-        if not self._converged:
+        if not self.converged():
             print "Please be noted, the GSOM training hasn't converged."
         return self._map
+
+    @property
+    def converged(self):
+        return self._converged
+
+    def __neighborhood_of(self,x,y):
+        """
+        Retrieves the cells closest to the specified cell.
+        Only includes vertical and horizontal cells.
+        """
+        return [(x + i, y + j)
+                for i in xrange(-1, 2)
+                for j in xrange(-1, 2)
+                if ((i + j) % 2 != 0)
+                and (0 <= x + i < self._map.shape[0])
+                and (0 <= y + j < self._map.shape[1])]
+
+    def __get_closest_match(self,feature):
+        """
+        Retrieves the indices of the cell with the smallest Euclidean distance to feature
+        """
+        errors = np.zeros(self._map.shape[:2])
+        #TODO: Refactor so its not two nested for-loops
+        for x in xrange(self._map.shape[0]):
+            for y in xrange(self._map.shape[1]):
+                errors[x][y] = np.linalg.norm(self._map[x][y] - feature)
+
+        return np.unravel_index( np.argmin(errors), errors.shape)
+
+    def __update_cell(self,feature, x, y):
+        """
+        Updates the cell according to the following formula:
+        m_i(t+1) = m_i(t) + alpha(t) * ( x(t) - m_i(t) )
+        """
+        if not (0 <= x <= self._map.shape[0]) or not(0 <= y <= self._map.shape[1]):
+            raise ValueError('Invalid cell ('+ str(x) +',' + str(y) + ') in map of shape' + str(self._map.shape[:2]))
+
+        self._map[x][y] = (1-self._alpha)*self._map[x][y] + self._alpha*feature
 
     def update(self, feature):
         """
         update the map with a input vector (either array or numpy array)
         """
-        def __get_closest_match():
-            """
-            Retrieves the indices of the cell with the smallest Euclidean distance to feature
-            """
-            errors = np.zeros(self._map.shape[:2])
-            #TODO: Refactor so its not two nested for-loops
-            for x in xrange(self._map.shape[0]):
-                for y in xrange(self._map.shape[1]):
-                    errors[x][y] = np.linalg.norm(self._map[x][y] - feature)
-
-            return np.unravel_index( np.argmin(errors), errors.shape)
-
-        def __neighborhood_of(cell):
-            """
-            Retrieves the cells closest to the specified cell.
-            Includes horizontal, vertical and diagonal cells.
-            """
-            return [(cell[0] + x, cell[1] + y)
-                    for x in xrange(-1, 2)
-                    for y in xrange(-1, 2)
-                    if (x != 0 or y != 0)
-                    and (0 <= cell[0] + x < self._map.shape[0])
-                    and (0 <= cell[1] + y < self._map.shape[1])]
-
-        def __update_cell(x, y):
-            """
-            Updates the cell according to the following formula:
-            m_i(t+1) = m_i(t) + alpha(t) * ( x(t) - m_i(t) )
-            """
-            if not (0 <= x <= self._map.shape[0]) or not(0 <= y <= self._map.shape[1]):
-                raise ValueError('Invalid cell ('+ str(x) +',' + str(y) + ') in map of shape' + str(self._map.shape[:2]))
-
-            self._map[x][y] = (1-self._alpha)*self._map[x][y] + self._alpha*feature
 
         #Check that input is valid
         if type(feature) != list and type(feature) != np.ndarray:
@@ -97,24 +104,55 @@ class GSOM(object):
             raise ValueError('Input feature has the wrong dimensionality. Got ' +str(len(feature)) + ', Expected '
                              + str(self._n))
 
+        if self._converged == True:
+            return
+
         #Update cells
-        match = __get_closest_match()
-        for cell in __neighborhood_of(match):
-            __update_cell(*cell)
+        match = self.__get_closest_match(feature)
+        for cell in self.__neighborhood_of(*match):
+            self.__update_cell(feature, *cell)
+
+        #Map feature to this cell
+        if self._mapping.has_key(match):
+            self._mapping[match].append(feature)
+        else:
+            self._mapping[match] = [feature]
 
         #Grow map if lam iterations have passed
-        self.iter += 1
-        if self.iter >= self._lam:
+        self._iter += 1
+        if self._iter >= self._lam:
             self.grow()
-            self.iter = self.iter % self._lam
+            self._iter = self._iter % self._lam
+
+    def __get_highest_error_cell(self):
+        """
+        It gets the cell e with the highest quantization error defined as:
+        qe_i = sum_(x_j) || m_i - x_j ||
+        where the x_j's are the features mapped to that cell.
+        """
+        raise NotImplementedError()
+
+    def __get_worst_neighbor(self, cell):
+        """
+        Find the most dissimilar neighbor of a cell.
+        """
+        c_vector = self._map[cell[0]][cell[1]]
+        return max(self.__neighborhood_of(*cell),
+                   key = lambda n: np.linalg.norm( c_vector - self._map[n[0]][n[1]] ) )
+
+    def __grow_map(self,c1,c2):
+        """
+        Grows the map between the two specified cells
+        """
+        raise NotImplementedError()
 
     def grow(self):
         """
-        grow the map every lam iteration
+        Grow the map. It's expected that this is called by GSOM.update
         """
-        if self.iter % self._lam == 0:
-            pass
-            #TODO: update the map
+        most_error_cell = self.__get_highest_error_cell()
+        worst_neighbor = self.__get_worst_neighbor(most_error_cell)
+        self.__grow_map(most_error_cell, worst_neighbor)
 
     def check(self):
         """
