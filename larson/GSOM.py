@@ -131,7 +131,9 @@ class GSOM(object):
         """
         Find the most dissimilar neighbor of a cell.
         """
-        raise NotImplementedError()
+        c_vector = self._map[cell[0]][cell[1]]
+        return max(self.__neighborhood_of(*cell),
+                   key = lambda n: np.linalg.norm( c_vector - self._map[n[0]][n[1]] ) )
 
     def __grow_map(self,c1,c2):
         """
