@@ -48,10 +48,15 @@ class GSOM(object):
         self._mapping = {}
 
     @property
+    #TODO: pick better name, this currently overrides the map function
     def map(self):
-        if not self._converged:
+        if not self.converged():
             print "Please be noted, the GSOM training hasn't converged."
         return self._map
+
+    @property
+    def converged(self):
+        return self._converged
 
     def __neighborhood_of(self,x,y):
         """
