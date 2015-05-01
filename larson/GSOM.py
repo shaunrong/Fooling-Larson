@@ -6,7 +6,7 @@ __maintainer__ = 'Shaun Rong'
 __email__ = 'rongzq08@gmail.com'
 
 import numpy as np
-
+from itertools import product
 
 class GSOM(object):
 
@@ -65,8 +65,7 @@ class GSOM(object):
         Only includes vertical and horizontal cells.
         """
         return [(x + i, y + j)
-                for i in xrange(-1, 2)
-                for j in xrange(-1, 2)
+                for i, j in product(xrange(-1, 2), xrange(-1, 2))
                 if ((i + j) % 2 != 0)
                 and (0 <= x + i < self._map.shape[0])
                 and (0 <= y + j < self._map.shape[1])]
@@ -77,9 +76,8 @@ class GSOM(object):
         """
         errors = np.zeros(self._map.shape[:2])
         #TODO: Refactor so its not two nested for-loops
-        for x in xrange(self._map.shape[0]):
-            for y in xrange(self._map.shape[1]):
-                errors[x][y] = np.linalg.norm(self._map[x][y] - feature)
+        for x,y in product(xrange(self._map.shape[0]), xrange(self._map.shape[1])):
+            errors[x][y] = np.linalg.norm(self._map[x][y] - feature)
 
         return np.unravel_index( np.argmin(errors), errors.shape)
 
