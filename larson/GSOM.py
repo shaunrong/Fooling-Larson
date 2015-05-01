@@ -19,6 +19,7 @@ class GSOM(object):
         :param n: dimension of the feature vector at each cell of the SOM
         :return: A initiated 2 * 2 SOM
         """
+        #TODO: Make alpha decrease with number of iterations
         self._alpha = alpha
         self._lam = lam
         self._tou = tou
@@ -64,6 +65,7 @@ class GSOM(object):
         Retrieves the cells closest to the specified cell.
         Only includes vertical and horizontal cells.
         """
+        #TODO start with large neighborhood. decrease size with time
         return [(x + i, y + j)
                 for i, j in product(xrange(-1, 2), xrange(-1, 2))
                 if ((i + j) % 2 != 0)
