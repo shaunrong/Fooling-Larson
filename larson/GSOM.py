@@ -49,6 +49,10 @@ class GSOM(object):
         self._mapping = np.array([[0,1],[2,3]], dtype=int)
         self._context = {}
 
+        #total quantization error variables
+        self._qe_u = np.random.rand(n)
+        self._input_vectors = []
+
     @property
     #TODO: pick better name, this currently overrides the map function
     def map(self):
@@ -108,10 +112,15 @@ class GSOM(object):
         if self._converged == True:
             return
 
+        #Update variables for mean quantization error
+        self._qe_u = (1-self._alpha)*self._qe_u + self._alpha*feature
+        self._input_vectors.append(feature)
+
         #Update cells
         match = self.__get_closest_match(feature)
         for cell in self.__neighborhood_of(*match):
             self.__update_cell(feature, *cell)
+        self.__update_cell(feature,*match)
 
         #Map feature to this cell
         if self._mapping.shape <= match:
@@ -128,28 +137,30 @@ class GSOM(object):
             self.grow()
             self._iter = self._iter % self._lam
 
+        self.check()
+
+    def __quantization_error_of(self, cell):
+        """
+        Computes the following for the cell:
+        qe_i = sum_(x_j) || m_i - x_j ||
+        where the x_j's are the features mapped to that cell.
+        """
+        #If there aren't any mappings to this cell, return 0
+        if not self._context.has_key(self._mapping[cell]):
+            return 0
+
+        input_vectors = self._context[self._mapping[cell]]
+        quantized_error = lambda inp: np.linalg.norm(self._map[cell[0]][cell[1]] - inp)
+        return sum([ quantized_error(inp) for inp in input_vectors])
+
     def __get_highest_error_cell(self):
         """
         Returns the cell with the highest quantization error defined as:
         qe_i = sum_(x_j) || m_i - x_j ||
         where the x_j's are the features mapped to that cell.
         """
-        def quantization_error_of(cell):
-            """
-            Computes the following for the cell:
-            qe_i = sum_(x_j) || m_i - x_j ||
-            where the x_j's are the features mapped to that cell.
-            """
-            #If there aren't any mappings to this cell, return 0
-            if not self._context.has_key(self._mapping[cell]):
-                return 0
-
-            input_vectors = self._context[self._mapping[cell]]
-            quantized_error_of = lambda inp: np.linalg.norm(self._map[cell[0]][cell[1]] - inp)
-            return sum([ quantized_error_of(inp) for inp in input_vectors])
-
         return max([cell for cell in product(xrange(self._map.shape[0]), xrange(self._map.shape[1]))],
-                   key = quantization_error_of)
+                   key = self.__quantization_error_of)
 
     def __get_worst_neighbor(self, cell):
         """
@@ -222,10 +233,26 @@ class GSOM(object):
         worst_neighbor = self.__get_worst_neighbor(most_error_cell)
         self.__grow_map(most_error_cell, worst_neighbor)
 
+    def __total_quantization_error_of(self):
+        """
+        The total quantization error is a measurement of the variability of the data.
+        It can be thought of as if all the input vectors went through one cell.
+        """
+        return sum([np.linalg.norm(self._qe_u - inp) for inp in self._input_vectors])
+
+    def __mean_quantization_error_of(self):
+        """
+        This is average of the quantization errors of all the cells.
+        """
+        quantization_errors = [self.__quantization_error_of(cell)
+                               for cell in product(xrange(self._map.shape[0]),xrange(self._map.shape[1]))
+                               if self._context.has_key(self._mapping[cell])]
+        return sum(quantization_errors)/len(quantization_errors)
+
     def check(self):
         """
         check if the map has converge
         :return: boolean
         """
-        pass
-        #TODO: check the map's convergence, if converged, change self._converged = True
+        if (self.__mean_quantization_error_of() < self._tou*self.__total_quantization_error_of()):
+            self._converged = True
