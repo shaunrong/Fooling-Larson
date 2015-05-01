@@ -114,7 +114,7 @@ class GSOM(object):
             self.__update_cell(feature, *cell)
 
         #Map feature to this cell
-        if self._mapping.shape > match:
+        if self._mapping.shape <= match:
             raise ValueError("match is out of range, looking for cell " + str(match) + " in mapping of shape " + str(self._mapping.shape))
         if self._context.has_key(self._mapping[match]):
             self._context[self._mapping[match]].append(feature)
