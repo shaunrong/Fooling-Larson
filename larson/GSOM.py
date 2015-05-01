@@ -45,7 +45,7 @@ class GSOM(object):
         
         #initiating the map
         self._map = np.random.rand(2, 2, n)
-        self._mapping = np.array([[0,1],[2,3]])
+        self._mapping = np.array([[0,1],[2,3]], dtype=int)
         self._context = {}
 
     @property
@@ -159,13 +159,62 @@ class GSOM(object):
 
     def __grow_map(self,c1,c2):
         """
-        Grows the map between the two specified cells
+        Grows the map between the two specified cells.
+        The new cell values are the average of the cells adjacent to them.
         """
-        raise NotImplementedError()
+        if not(c2 in self.__neighborhood_of(*c1)):
+            raise ValueError(str(c1) + " and " + str(c2) + "aren't next to each other.")
+
+        #gather information from old map
+        direction = np.array(c1)-np.array(c2)
+        add_row = abs(direction[0]) > 0
+        old_size = self._map.shape[0] * self._map.shape[1]
+
+        #construct new map
+        new_shape = (self._map.shape[0]+ add_row, self._map.shape[1]+ (not add_row), self._n)
+        new_map = np.zeros(new_shape, dtype=float)
+        new_mapping = np.zeros(new_shape[:2], dtype=int)
+
+        if add_row:
+            up = min(c1[0],c2[0])
+            down = max(c1[0],c2[0])
+
+            #adjust new map
+            new_map[0:down,:] = self._map[0:down,:]
+            new_map[down+1:,:] = self._map[down:,:]
+
+            for i in xrange(new_map.shape[1]):
+                for j in xrange(self._n):
+                    new_map[down,i] = sum([self._map[up,i,j],self._map[down,i,j]])/2
+
+            #adjust mapping to context
+            new_mapping[0:down,:] = self._mapping[0:down,:]
+            new_mapping[down+1:,:] = self._mapping[down:,:]
+            new_mapping[down,:] = np.array(range(old_size, old_size + new_mapping.shape[1]))
+        else:
+            left = min(c1[1],c2[1])
+            right = max(c1[1],c2[1])
+
+            #adjust new map
+            new_map[:,0:right] = self._map[:,0:right]
+            new_map[:,right+1:] = self._map[:,right:]
+
+            for i in xrange(new_map.shape[0]):
+                for j in xrange(self._n):
+                    new_map[i,right,j] = sum([self._map[i,left,j],self._map[i,right,j]])/2
+
+            #adjust mapping to context
+            new_mapping[:,0:right] = self._mapping[:,0:right]
+            new_mapping[:,right+1:] = self._mapping[:,right:]
+            new_mapping[:,right] = np.array(range(old_size, old_size + new_mapping.shape[0]))
+
+        self._map = new_map
+        self._mapping = new_mapping
 
     def grow(self):
         """
-        Grow the map. It's expected that this is called by GSOM.update
+        Find the stress point and it's most dissimilar neighbor. Grow the map there.
+        It's expected that this is called by GSOM.update.
         """
         most_error_cell = self.__get_highest_error_cell()
         worst_neighbor = self.__get_worst_neighbor(most_error_cell)
