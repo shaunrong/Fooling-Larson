@@ -128,11 +128,26 @@ class GSOM(object):
 
     def __get_highest_error_cell(self):
         """
-        It gets the cell e with the highest quantization error defined as:
+        Returns the cell with the highest quantization error defined as:
         qe_i = sum_(x_j) || m_i - x_j ||
         where the x_j's are the features mapped to that cell.
         """
-        raise NotImplementedError()
+        def quantization_error_of(cell):
+            """
+            Computes the following for the cell:
+            qe_i = sum_(x_j) || m_i - x_j ||
+            where the x_j's are the features mapped to that cell.
+            """
+            #If there aren't any mappings to this cell, return 0
+            if not self._context.has_key(self._mapping[cell]):
+                return 0
+
+            input_vectors = self._context[self._mapping[cell]]
+            quantized_error_of = lambda inp: np.linalg.norm(self._map[cell[0]][cell[1]] - inp)
+            return sum([ quantized_error_of(inp) for inp in input_vectors])
+
+        return max([cell for cell in product(xrange(self._map.shape[0]), xrange(self._map.shape[1]))],
+                   key = quantization_error_of)
 
     def __get_worst_neighbor(self, cell):
         """
