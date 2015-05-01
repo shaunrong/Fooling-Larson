@@ -8,6 +8,7 @@ __email__ = 'rongzq08@gmail.com'
 import numpy as np
 from itertools import product
 
+
 class GSOM(object):
 
     def __init__(self, alpha, lam, tou, n=7):

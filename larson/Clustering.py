@@ -21,13 +21,19 @@ class UPGMA(object):
         self._world = GSOM
         self._clusters = clusters
 
-        self._association = {}  # {'cluster1' : [indexes of cells belong to that cluster]}
-        for i in range(clusters):
-            self._association['cluster' + str(i)] = []
-
+        self._association = {}
         self._representative = {}
-        for i in range(clusters):
-            self._representative['cluster' + str(i)] = []
+        self._left_cells = []
+        for i in range(np.prod(SOM.map.shape[0:2])):
+            self._association[i] = [[int(i / SOM.map.shape[0]), i % SOM.map.shape[0]]]
+            self._representative[i] = SOM.map[int(i / SOM.map.shape[0])][i % SOM.map.shape[0]]
+            self._left_cells.append(i)
+
+        self._resemblance = {}
+
+        for i in range(len(self._representative)):
+            for j in range(i):
+                self._resemblance[(i, j)] = np.linalg.norm(self._representative[i] - self._representative[j])
 
     @property
     def association(self):
@@ -42,5 +48,36 @@ class UPGMA(object):
         Class the GSOM world into the right number of clusters, update cluster association dictionary as well as the
         representative of each cluster.
         """
-        #TODO: Implement the UPGMA clustering process.
-        pass
+        while len(self._left_cells) != 10:
+            min_index = min(self._resemblance, key=self._resemblance.get)
+            self._update_clusters(min_index)
+
+    def _update_clusters(self, min_index):
+        cluster_i = max(min_index)
+        cluster_j = min(min_index)
+
+        self._association[cluster_j].extend(self._association[cluster_i])
+        del self._association[cluster_i]
+
+        self._representative[cluster_j] = (self._representative[cluster_j] + self._representative[cluster_i]) / 2.0
+        del self._representative[cluster_i]
+
+        self._left_cells.remove(cluster_i)
+        self._left_cells.sort()
+
+        for i in self._left_cells:
+            if i != cluster_j:
+                self._resemblance[self._reorder_tuple(cluster_j, i)] = np.linalg.norm(self._representative[i] -
+                                                                                      self._representative[cluster_j])
+        for key in self._resemblance.keys():
+            if cluster_i in key:
+                del self._resemblance[key]
+
+    @staticmethod
+    def _reorder_tuple(a, b):
+        if a == b:
+            raise ValueError("There is no diagonal term UPGMA._resemblance.")
+        if a < b:
+            return tuple([b, a])
+        if a > b:
+            return tuple([a, b])
