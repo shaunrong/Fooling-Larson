@@ -133,9 +133,8 @@ class GSOM(object):
 
         #Grow map if lam iterations have passed
         self._iter += 1
-        if self._iter >= self._lam:
+        if self._iter % self._lam == 0:
             self.grow()
-            self._iter = self._iter % self._lam
 
         self.check()
 
@@ -256,3 +255,4 @@ class GSOM(object):
         """
         if (self.__mean_quantization_error_of() < self._tou*self.__total_quantization_error_of()):
             self._converged = True
+            print "Map converged after", self._iter, "iterations. Shape is", self._map.shape[:2]
