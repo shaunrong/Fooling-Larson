@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-__author__ = 'Shaun Rong'
+__author__ = 'Manuel Cabral, Shaun (Ziqin) Rong'
 __version__ = '0.1'
-__maintainer__ = 'Shaun Rong'
-__email__ = 'rongzq08@gmail.com'
+__maintainer__ = 'Shaun (Ziqin) Rong'
+__email__ = 'cabman567@gmail.com, rongzq08@gmail.com'
 
 import numpy as np
 from itertools import product
@@ -43,11 +43,11 @@ class GSOM(object):
         if type(self._n) != int:
             raise TypeError('n must be an int')
         if self._n < 1:
-            raise ValueError('n must be an integer greater than or equal to 1. Received: . Received: ' + str(self.n))
+            raise ValueError('n must be an integer greater than or equal to 1. Received: . Received: ' + str(self._n))
         
         #initiating the map
         self._map = np.random.rand(2, 2, n)
-        self._mapping = np.array([[0,1],[2,3]], dtype=int)
+        self._mapping = np.array([[0, 1], [2, 3]], dtype=int)
         self._context = {}
 
         #total quantization error variables
@@ -55,7 +55,6 @@ class GSOM(object):
         self._input_vectors = []
 
     @property
-    #TODO: pick better name, this currently overrides the map function
     def map(self):
         if not self.converged:
             print "Please be noted, the GSOM training hasn't converged."
@@ -65,38 +64,37 @@ class GSOM(object):
     def converged(self):
         return self._converged
 
-    def __neighborhood_of(self,x,y):
+    def __neighborhood_of(self, x, y):
         """
         Retrieves the cells closest to the specified cell.
         Only includes vertical and horizontal cells.
         """
-        #TODO start with large neighborhood. decrease size with time
         return [(x + i, y + j)
                 for i, j in product(xrange(-1, 2), xrange(-1, 2))
                 if ((i + j) % 2 != 0)
                 and (0 <= x + i < self._map.shape[0])
                 and (0 <= y + j < self._map.shape[1])]
 
-    def __get_closest_match(self,feature):
+    def __get_closest_match(self, feature):
         """
         Retrieves the indices of the cell with the smallest Euclidean distance to feature
         """
         errors = np.zeros(self._map.shape[:2])
         #TODO: Refactor so its not two nested for-loops
-        for x,y in product(xrange(self._map.shape[0]), xrange(self._map.shape[1])):
+        for x, y in product(xrange(self._map.shape[0]), xrange(self._map.shape[1])):
             errors[x][y] = np.linalg.norm(self._map[x][y] - feature)
 
-        return np.unravel_index( np.argmin(errors), errors.shape)
+        return np.unravel_index(np.argmin(errors), errors.shape)
 
-    def __update_cell(self,feature, x, y):
+    def __update_cell(self, feature, x, y):
         """
         Updates the cell according to the following formula:
         m_i(t+1) = m_i(t) + alpha(t) * ( x(t) - m_i(t) )
         """
         if not (0 <= x <= self._map.shape[0]) or not(0 <= y <= self._map.shape[1]):
-            raise ValueError('Invalid cell ('+ str(x) +',' + str(y) + ') in map of shape' + str(self._map.shape[:2]))
+            raise ValueError('Invalid cell (' + str(x) + ',' + str(y) + ') in map of shape' + str(self._map.shape[:2]))
 
-        self._map[x][y] = (1-self._alpha)*self._map[x][y] + self._alpha*feature
+        self._map[x][y] = (1 - self._alpha) * self._map[x][y] + self._alpha * feature
 
     def update(self, feature):
         """
@@ -107,21 +105,22 @@ class GSOM(object):
         if type(feature) != list and type(feature) != np.ndarray:
             raise TypeError('Input feature vector has to be a list or numpy array.')
         if len(feature) != self._n:
-            raise ValueError('Input feature has the wrong dimensionality. Got ' +str(len(feature)) + ', Expected '
+            raise ValueError('Input feature has the wrong dimensionality. Got ' + str(len(feature)) + ', Expected '
                              + str(self._n))
 
-        if self._converged == True:
+        if self._converged:
+            print "GSOM already converged."
             return
 
         #Update variables for mean quantization error
-        self._qe_u = (1-self._alpha)*self._qe_u + self._alpha*feature
+        self._qe_u = (1 - self._alpha) * self._qe_u + self._alpha * feature
         self._input_vectors.append(feature)
 
         #Update cells
         match = self.__get_closest_match(feature)
         for cell in self.__neighborhood_of(*match):
             self.__update_cell(feature, *cell)
-        self.__update_cell(feature,*match)
+        self.__update_cell(feature, *match)
 
         #Map feature to this cell
         if self._mapping.shape <= match:
