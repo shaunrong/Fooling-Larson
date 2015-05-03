@@ -196,8 +196,7 @@ class GSOM(object):
             new_map[down+1:,:] = self._map[down:,:]
 
             for i in xrange(new_map.shape[1]):
-                for j in xrange(self._n):
-                    new_map[down,i] = sum([self._map[up,i,j],self._map[down,i,j]])/2
+                new_map[down,i] = (self._map[up,i]+self._map[down,i])/2
 
             #adjust mapping to context
             new_mapping[0:down,:] = self._mapping[0:down,:]
@@ -212,8 +211,7 @@ class GSOM(object):
             new_map[:,right+1:] = self._map[:,right:]
 
             for i in xrange(new_map.shape[0]):
-                for j in xrange(self._n):
-                    new_map[i,right,j] = sum([self._map[i,left,j],self._map[i,right,j]])/2
+                new_map[i,right] = (self._map[i,left]+self._map[i,right])/2
 
             #adjust mapping to context
             new_mapping[:,0:right] = self._mapping[:,0:right]
