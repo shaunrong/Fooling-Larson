@@ -16,7 +16,7 @@ def main():
     #debug
     it = 0
     while not SOM.converged:
-        SOM.update(input_world.ran_input())
+        SOM.update(input_world.ran_input_unsup())
         print it
         it += 1
     clusters = UPGMA(SOM)

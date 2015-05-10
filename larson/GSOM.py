@@ -112,6 +112,9 @@ class GSOM(object):
             print "GSOM already converged."
             return
 
+        #We need to make sure that it's a numpy array
+        feature = np.array(feature)
+
         #Update variables for mean quantization error
         self._qe_u = (1 - self._alpha) * self._qe_u + self._alpha * feature
         self._input_vectors.append(feature)
