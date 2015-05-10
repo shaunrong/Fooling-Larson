@@ -61,14 +61,14 @@ class Digits(object):
                 ran_input.append(0.95 - random.random() * 0.05)
         return ran_input
 
-    def ran_input_sup(self):
+    def ran_input_sup(self, sym):
         """
         Provide a randomized input for Larson supervised learning phase. Randomization works like:
         0 in input will be randomized to 0~0.15
         1 in input will be randomized to 0.85~1.00
         :return: an input vector
         """
-        vec = random.choice(self.sym_map.values())
+        vec = self.sym_map[sym]
         ran_input = []
         for dim in vec:
             if dim == 0:
