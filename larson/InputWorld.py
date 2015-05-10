@@ -45,11 +45,11 @@ class Digits(object):
         """
         return self._symMap
 
-    def ran_input(self):
+    def ran_input_unsup(self):
         """
-        Provide a randomized input for Larson sys. Randomization works like:
-        0 in input will be randomized to 0~0.1
-        1 in input will be randomized to 0.9~1
+        Provide a randomized input for Larson sys unsupervised learning phase. Randomization works like:
+        0 in input will be randomized to 0.05~0.1
+        1 in input will be randomized to 0.9~0.95
         :return: an input vector
         """
         vec = random.choice(self.sym_map.values())
@@ -59,6 +59,22 @@ class Digits(object):
                 ran_input.append(random.random() * 0.05 + 0.05)
             if dim == 1:
                 ran_input.append(0.95 - random.random() * 0.05)
+        return ran_input
+
+    def ran_input_sup(self):
+        """
+        Provide a randomized input for Larson supervised learning phase. Randomization works like:
+        0 in input will be randomized to 0~0.15
+        1 in input will be randomized to 0.85~1.00
+        :return: an input vector
+        """
+        vec = random.choice(self.sym_map.values())
+        ran_input = []
+        for dim in vec:
+            if dim == 0:
+                ran_input.append(random.random() * 0.15)
+            if dim == 1:
+                ran_input.append(1 - random.random() * 0.15)
         return ran_input
 
     def _get_sym_map(self):

@@ -28,5 +28,11 @@ class TrainDigits(object):
         self._input_world = input_world
         self._SOM = SOM
         self._clusters = clusters
+        self._results = {}
 
-    def
+    @property
+    def results(self):
+        return self._results
+
+    def train(self):
+
