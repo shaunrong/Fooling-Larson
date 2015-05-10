@@ -6,13 +6,12 @@ __maintainer__ = 'Shaun Rong'
 __email__ = 'rongzq08@gmail.com'
 
 from larson.InputWorld import Digits
-from larson.GSOM import GSOM
 from larson.Clustering import UPGMA
 import numpy as np
 
 
 class TrainDigits(object):
-    def __init__(self, input_world, SOM, clusters):
+    def __init__(self, input_world, clusters):
         """
         This class does the supervised learning step of Larson system
         :param input_world: input world, a Digits object from larson.InputWorld module
@@ -21,13 +20,10 @@ class TrainDigits(object):
         """
         if type(input_world) != Digits:
             raise TypeError('input_world is not a Digits object.')
-        if type(SOM) != GSOM:
-            raise TypeError('SOM is not a GSOM object.')
         if type(clusters) != UPGMA:
             raise TypeError('clusters is not a UPGMA object.')
 
         self._input_world = input_world
-        self._SOM = SOM
         self._clusters = clusters
         self._results = {}
 

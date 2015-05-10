@@ -77,6 +77,11 @@ class Digits(object):
                 ran_input.append(1 - random.random() * 0.15)
         return ran_input
 
+    def ran_input_fooling(self):
+        """
+        :return: a random input dim-dimensional in
+        """
+
     def _get_sym_map(self):
         """
         this function reads the norm .yaml file and produce a Symbol Map corresponding the segments each edge is
