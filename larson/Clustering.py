@@ -24,9 +24,10 @@ class UPGMA(object):
         self._association = {}
         self._representative = {}
         self._left_cells = []
-        for i in range(np.prod(SOM.map.shape[0:2])):
+        shape = SOM.map.shape[0:2]
+        for i in range(np.prod(shape)):
             self._association[i] = [[int(i / SOM.map.shape[0]), i % SOM.map.shape[0]]]
-            self._representative[i] = SOM.map[int(i / SOM.map.shape[0])][i % SOM.map.shape[0]]
+            self._representative[i] = SOM.map[np.unravel_index(i,shape)]
             self._left_cells.append(i)
 
         self._resemblance = {}
