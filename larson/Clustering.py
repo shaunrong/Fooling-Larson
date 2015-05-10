@@ -67,7 +67,7 @@ class UPGMA(object):
 
         for i in self._left_cells:
             if i != cluster_j:
-                self._resemblance[self._reorder_tuple(cluster_j, i)] = np.linalg.norm(self._representative[i] -
+                self._resemblance[UPGMA._reorder_tuple(cluster_j, i)] = np.linalg.norm(self._representative[i] -
                                                                                       self._representative[cluster_j])
         for key in self._resemblance.keys():
             if cluster_i in key:
