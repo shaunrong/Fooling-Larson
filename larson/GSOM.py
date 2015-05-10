@@ -64,14 +64,17 @@ class GSOM(object):
     def converged(self):
         return self._converged
 
-    def __neighborhood_of(self, x, y):
+    def __neighborhood_of(self, x, y, distance="1"):
         """
         Retrieves the cells closest to the specified cell.
-        Only includes vertical and horizontal cells.
+        Includes vertical, horizontal, diagonal cells.
+
+        Distance is used to specify to distance from specified cell.
+        It's the l2 norm squared from (x,y).
         """
         return [(x + i, y + j)
                 for i, j in product(xrange(-1, 2), xrange(-1, 2))
-                if ((i + j) % 2 != 0)
+                if (0 < i**2 + j**2 <= distance)
                 and (0 <= x + i < self._map.shape[0])
                 and (0 <= y + j < self._map.shape[1])]
 
@@ -121,7 +124,7 @@ class GSOM(object):
 
         #Update cells
         match = self.__get_closest_match(feature)
-        for cell in self.__neighborhood_of(*match):
+        for cell in self.__neighborhood_of(*match,distance=2):
             self.__update_cell(feature, *cell)
         self.__update_cell(feature, *match)
 
@@ -169,7 +172,7 @@ class GSOM(object):
         Find the most dissimilar neighbor of a cell.
         """
         c_vector = self._map[cell[0]][cell[1]]
-        return max(self.__neighborhood_of(*cell),
+        return max(self.__neighborhood_of(*cell,distance=1),
                    key = lambda n: np.linalg.norm( c_vector - self._map[n[0]][n[1]] ) )
 
     def __grow_map(self,c1,c2):
@@ -177,7 +180,7 @@ class GSOM(object):
         Grows the map between the two specified cells.
         The new cell values are the average of the cells adjacent to them.
         """
-        if not(c2 in self.__neighborhood_of(*c1)):
+        if not(c2 in self.__neighborhood_of(*c1,distance=1)):
             raise ValueError(str(c1) + " and " + str(c2) + "aren't next to each other.")
 
         #gather information from old map
