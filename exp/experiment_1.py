@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from Clustering import UPGMA
+from larson.Clustering import UPGMA
 
 __author__ = 'Shaun Rong'
 __version__ = '0.1'
