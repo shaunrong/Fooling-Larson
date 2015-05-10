@@ -79,8 +79,12 @@ class Digits(object):
 
     def ran_input_fooling(self):
         """
-        :return: a random input dim-dimensional in
+        :return: a random input dim-dimensional vector
         """
+        ran_input = []
+        for i in range(self._dim):
+            ran_input.append(random.random())
+        return ran_input
 
     def _get_sym_map(self):
         """
