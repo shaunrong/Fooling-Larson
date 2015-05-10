@@ -28,6 +28,20 @@ def main():
     sup_train.train()
 
     #Fooling it
+    for sym in sup_train.results.keys():
+        for i in range(100):
+            input_vec = input_world.ran_input_fooling_known(sym)
+            match = sup_train.match(input_vec)
+            if match != sym:
+                print "Find a Mismatch, input vector is {}, matched sym is {}, the symbol should match is {}.".format(
+                    input_vec, match, sym)
+
+    for i in range(1000):
+        input_vec = input_world.ran_input_fooling_not_known()
+        match = sup_train.match(input_vec)
+        if match != 'no_match':
+            print "Find a Mismatch, input vector is {}, matched sym is {}, the symbol should match is {}.".format(
+                input_vec, match, 'no_match')
 
 if __name__ == '__main__':
     main()

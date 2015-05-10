@@ -28,6 +28,7 @@ class TestClustering(unittest.TestCase):
                 SOM._map[i][j] = np.ones(7) * 40
         clusters = UPGMA(SOM, clusters=4)
         clusters.clustering()
+
         for key in clusters.association.keys():
             self.assertEqual(len(clusters.association[key]), 100)
 
