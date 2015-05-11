@@ -76,3 +76,12 @@ class TrainDigits(object):
         self._association[sym][associated_cluster]['activated_num'] += 1
         self._association[sym][associated_cluster]['associated_inputs'].append(ran_input)
 
+    def match(self, input_vector):
+        match = 'no_match'
+        for sym in self._results:
+            if np.greater(self._results[sym]['guassian_std'],
+                          abs(input_vector - self._results[sym]['guassian_mean'])).all():
+                match = sym
+        return match
+
+

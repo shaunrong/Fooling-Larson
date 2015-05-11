@@ -27,7 +27,7 @@ class UPGMA(object):
         shape = SOM.map.shape[0:2]
         for i in range(np.prod(shape)):
             self._association[i] = [[int(i / SOM.map.shape[0]), i % SOM.map.shape[0]]]
-            self._representative[i] = SOM.map[np.unravel_index(i,shape)]
+            self._representative[i] = SOM.map[np.unravel_index(i, shape)]
             self._left_cells.append(i)
 
         self._resemblance = {}
@@ -49,7 +49,7 @@ class UPGMA(object):
         Class the GSOM world into the right number of clusters, update cluster association dictionary as well as the
         representative of each cluster.
         """
-        while len(self._left_cells) != 10:
+        while len(self._left_cells) != self._clusters:
             min_index = min(self._resemblance, key=self._resemblance.get)
             self._update_clusters(min_index)
 

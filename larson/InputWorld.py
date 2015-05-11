@@ -59,7 +59,7 @@ class Digits(object):
                 ran_input.append(random.random() * 0.05 + 0.05)
             if dim == 1:
                 ran_input.append(0.95 - random.random() * 0.05)
-        return ran_input
+        return np.array(ran_input)
 
     def ran_input_sup(self, sym):
         """
@@ -75,16 +75,26 @@ class Digits(object):
                 ran_input.append(random.random() * 0.15)
             if dim == 1:
                 ran_input.append(1 - random.random() * 0.15)
-        return ran_input
+        return np.array(ran_input)
 
-    def ran_input_fooling(self):
+    def ran_input_fooling_not_known(self):
         """
         :return: a random input dim-dimensional vector
         """
-        ran_input = []
-        for i in range(self._dim):
-            ran_input.append(random.random())
+        ran_input = np.random.random(self._dim)
+        while self._belong_to_sym_map(ran_input):
+            ran_input = np.random.random(self._dim)
         return ran_input
+
+    def ran_input_fooling_known(self, sym):
+        vec = self.sym_map[sym]
+        ran_input = []
+        for dim in vec:
+            if dim == 0:
+                ran_input.append(random.random() * 0.1 + 0.25)
+            if dim == 1:
+                ran_input.append(0.975 - random.random() * 0.1)
+        return np.array(ran_input)
 
     def _get_sym_map(self):
         """
@@ -103,3 +113,11 @@ class Digits(object):
                     new_map = np.append(new_map, np.ones(self._seg, dtype=int))
             sym_map[key] = new_map
         return sym_map
+
+    def _belong_to_sym_map(self, ran_input):
+        belong = False
+        tol = np.ones(self._dim) * 0.2
+        for norm_vector in self.sym_map.values():
+            if np.greater(tol, abs(ran_input - np.array(norm_vector))).all():
+                belong = True
+        return belong
