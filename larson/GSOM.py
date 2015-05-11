@@ -44,10 +44,12 @@ class GSOM(object):
             raise TypeError('n must be an int')
         if self._n < 1:
             raise ValueError('n must be an integer greater than or equal to 1. Received: . Received: ' + str(self._n))
-        
+
         #initiating the map
-        self._map = np.random.rand(2, 2, n)
-        self._mapping = np.array([[0, 1], [2, 3]], dtype=int)
+        size = 4
+        self._map = np.random.rand(size, size, n)
+        shape = self._map.shape[:2]
+        self._mapping = np.arange(np.prod(shape), dtype=int).reshape(shape)
         self._context = {}
 
         #total quantization error variables
@@ -57,7 +59,7 @@ class GSOM(object):
     @property
     def map(self):
         if not self.converged:
-            print "Please be noted, the GSOM training hasn't converged."
+            print "Please note, the GSOM training hasn't converged."
         return self._map
 
     @property
@@ -155,8 +157,8 @@ class GSOM(object):
             return 0
 
         input_vectors = self._context[self._mapping[cell]]
-        quantized_error = lambda inp: np.linalg.norm(self._map[cell[0]][cell[1]] - inp)
-        return sum([ quantized_error(inp) for inp in input_vectors])
+        quantized_error = lambda inp: np.linalg.norm(self._map[cell] - inp)
+        return sum([ quantized_error(inp) for inp in input_vectors])/len(input_vectors)
 
     def __get_highest_error_cell(self):
         """
@@ -202,7 +204,7 @@ class GSOM(object):
             new_map[down+1:,:] = self._map[down:,:]
 
             for i in xrange(new_map.shape[1]):
-                new_map[down,i] = (self._map[up,i]+self._map[down,i])/2
+                new_map[down,i] = (self._map[up,i]+self._map[down,i])/2.
 
             #adjust mapping to context
             new_mapping[0:down,:] = self._mapping[0:down,:]
@@ -217,7 +219,7 @@ class GSOM(object):
             new_map[:,right+1:] = self._map[:,right:]
 
             for i in xrange(new_map.shape[0]):
-                new_map[i,right] = (self._map[i,left]+self._map[i,right])/2
+                new_map[i,right] = (self._map[i,left]+self._map[i,right])/2.
 
             #adjust mapping to context
             new_mapping[:,0:right] = self._mapping[:,0:right]
@@ -250,7 +252,7 @@ class GSOM(object):
         quantization_errors = [self.__quantization_error_of(cell)
                                for cell in product(xrange(self._map.shape[0]),xrange(self._map.shape[1]))
                                if self._context.has_key(self._mapping[cell])]
-        return sum(quantization_errors)/len(quantization_errors)
+        return sum(quantization_errors)#/len(quantization_errors)
 
     def check(self):
         """
