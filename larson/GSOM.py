@@ -46,7 +46,7 @@ class GSOM(object):
             raise ValueError('n must be an integer greater than or equal to 1. Received: . Received: ' + str(self._n))
 
         #initiating the map
-        size = 4
+        size = 6
         self._map = np.random.rand(size, size, n)
         shape = self._map.shape[:2]
         self._mapping = np.arange(np.prod(shape), dtype=int).reshape(shape)

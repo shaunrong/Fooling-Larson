@@ -52,7 +52,7 @@ class TrainDigits(object):
         for sym in self._input_world.sym_map.keys():
             self._results[sym] = {}
             for i in range(1000):
-                self._associate(self._input_world.ran_input_sup(), sym)
+                self._associate(self._input_world.ran_input_sup(sym), sym)
         for sym in self._association.keys():
             associated_cluster = 0
             max_frequency = 0

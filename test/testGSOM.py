@@ -28,7 +28,7 @@ class pixelMap:
     def update_controlled(self):
         vector = np.arange(self.n,dtype=float)
         for i in xrange(self.n):
-            if  ((self.iter/2**i) % 2) == 0:
+            if ((self.iter/2**i) % 2) == 0:
                 vector[i] = uniform(0.,0.2)
             else:
                 vector[i] = uniform(0.8,1.0)
