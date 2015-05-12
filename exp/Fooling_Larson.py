@@ -16,12 +16,16 @@ def main():
 
     #Unsupervised learning phase
     #Self-organizing map
-    SOM = GSOM(alpha=0.1, lam=10, tou=0.1)
+    SOM = GSOM(alpha=0.1, lam=10, tou=0.01)
     while not SOM.converged:
         SOM.update(input_world.ran_input_unsup())
     #Clustering
     clusters = UPGMA(SOM)
     clusters.clustering()
+    for key in clusters.association.keys():
+        print "The number of cells in {} cluster is {}".format(key, len(clusters.association[key]))
+    for key in clusters.representative.keys():
+        print "The representative of {} in clusters are {}".format(key, clusters.representative[key])
 
     #Unsupervised Learning phase
     sup_train = TrainDigits(input_world, clusters)
