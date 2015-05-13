@@ -17,8 +17,8 @@ class UPGMA(object):
         :param GSOM: input SOM world (a numpy array)
         :param clusters: number of clusters the UPGMA clusters into
         """
-        if type(SOM) != GSOM.GSOM:
-            raise TypeError("SOM input has to be a GSOM object.")
+        #if type(SOM) != GSOM.GSOM:
+            #raise TypeError("SOM input has to be a GSOM object.")
         self._world = GSOM
         self._clusters = clusters
 

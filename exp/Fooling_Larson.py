@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from larson.Clustering import UPGMA
-from larson.GSOM import GSOM
+from larson.GSOMFixed import GSOM
 from larson.InputWorld import Digits
 from larson.ClusterAssociation import TrainDigits
 
