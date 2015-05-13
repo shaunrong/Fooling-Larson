@@ -126,7 +126,7 @@ class GSOM(object):
 
         #Update cells
         match = self.__get_closest_match(feature)
-        for cell in self.__neighborhood_of(*match,distance=2):
+        for cell in self.__neighborhood_of(*match, distance=2):
             self.__update_cell(feature, *cell)
         self.__update_cell(feature, *match)
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import yaml
 
 __author__ = 'Shaun Rong'
 __version__ = '0.1'
@@ -6,7 +7,7 @@ __maintainer__ = 'Shaun Rong'
 __email__ = 'rongzq08@gmail.com'
 
 import numpy as np
-from GSOM import GSOM
+import larson.GSOM as GSOM
 
 
 class UPGMA(object):
@@ -16,7 +17,7 @@ class UPGMA(object):
         :param GSOM: input SOM world (a numpy array)
         :param clusters: number of clusters the UPGMA clusters into
         """
-        if type(SOM) != GSOM:
+        if type(SOM) != GSOM.GSOM:
             raise TypeError("SOM input has to be a GSOM object.")
         self._world = GSOM
         self._clusters = clusters
@@ -82,3 +83,52 @@ class UPGMA(object):
             return tuple([b, a])
         if a > b:
             return tuple([a, b])
+
+
+class KMeans(object):
+    def __init__(self, SOM, clusters = 10):
+        if type(SOM) != GSOM.GSOM:
+            raise TypeError("SOM input has to be a GSOM object.")
+        self._world = GSOM
+        self._clusters = clusters
+        self._representative = {}
+        self._association = {}
+        with open('../norms/digits.yaml', 'r') as digits:
+            sym_map = yaml.load(digits)
+        for key, value in sym_map.iteritems():
+            self._representative[key] = value
+            self._association[key] = np.array([])
+
+    @property
+    def association(self):
+        return self._association
+
+    @property
+    def representative(self):
+        return self._representative
+
+    def clustering(self):
+        """
+        Class the GSOM world into the right number of clusters, update cluster association dictionary as well as the
+        representative of each cluster.
+        """
+        updated_representative = {}
+        for cell in np.nditer(self._world):
+            distance = {}
+            for key, value in self._representative.iteritems():
+                distance[key] = np.linalg.norm(cell - value)
+            belong_group = min(distance, key=distance.get)
+            self._association[belong_group].append(cell)
+        for key in self._representative.keys():
+            updated_representative[key] = np.mean(self._association[key], axis=0)
+
+        while self._representative != updated_representative:
+            self._representative = updated_representative
+            for cell in np.nditer(self._world):
+                distance = {}
+                for key, value in self._representative.iteritems():
+                    distance[key] = np.linalg.norm(cell - value)
+                belong_group = min(distance, key=distance.get)
+                self._association[belong_group].append(cell)
+            for key in self._representative.keys():
+                updated_representative[key] = np.mean(self._association[key], axis=0)

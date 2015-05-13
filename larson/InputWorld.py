@@ -25,6 +25,8 @@ class Digits(object):
     [3]  --
     [4] |  |  [5]
     [6]  --
+
+
         """
         self._seg = seg
         self._dim = seg * 7
